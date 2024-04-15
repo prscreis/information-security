@@ -1,5 +1,5 @@
 from cryptography.hazmat.primitives import serialization
-from IntegrityVerification import verify_file_integrity
+from Hashing import verify_file_integrity
 from KeyGeneration import generate_rsa_key_pair, encrypt_file, decrypt_file, generate_file_hash
 
 # save_key_to_file

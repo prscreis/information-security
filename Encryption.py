@@ -1,7 +1,6 @@
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
 
-from Decryption import decrypt_file
 from KeyGeneration import generate_rsa_key_pair
 
 def encrypt_file(file_path, public_key):
@@ -17,6 +16,20 @@ def encrypt_file(file_path, public_key):
     )
     return encrypted_data
 
+
+def decrypt_file(encrypted_file, private_key):
+    try:
+        decrypted_data = private_key.decrypt(
+            encrypted_file,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+    except :
+        return None
+    return decrypted_data
 
 # test
 if __name__ == '__main__':
