@@ -1,7 +1,8 @@
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
-from cryptography.hazmat.primitives.asymmetric import rsa
+
+from Decryption import decrypt_file
+from KeyGeneration import generate_rsa_key_pair
 
 def encrypt_file(file_path, public_key):
     with open(file_path, 'rb') as f:
@@ -16,6 +17,14 @@ def encrypt_file(file_path, public_key):
     )
     return encrypted_data
 
-private_key, public_key = rsa.generate_rsa_key_pair()
-encrypted_data = encrypt_file('test.txt', public_key)
-print(encrypted_data)
+
+# test
+if __name__ == '__main__':
+    private_key, public_key = generate_rsa_key_pair()
+
+    encrypted_data = encrypt_file('test.txt', public_key)
+    print(encrypted_data)
+    
+    decrypted_data = decrypt_file(encrypted_data, private_key)
+    print('----------------------------')
+    print(decrypted_data)

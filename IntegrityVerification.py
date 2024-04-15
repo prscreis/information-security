@@ -1,6 +1,5 @@
-from Hashing import generate_file_hash
-
 import hashlib
+from Hashing import generate_file_hash
 
 def generate_file_hash(file_path):
     with open(file_path, 'rb') as f:
