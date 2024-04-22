@@ -36,7 +36,7 @@ def decrypt(data, private_key, algorithm=hashes.SHA256):
 
 
 def encrypt_file(file_path, public_key, algorithm=hashes.SHA256):
-    data = load_file(file_path)    
+    data = load_file(file_path)
     return encrypt(data, public_key, algorithm)
 
 
