@@ -11,6 +11,7 @@ def generate_rsa_key_pair():
     public_key = private_key.public_key()
     return private_key, public_key
 
+
 def save_public_key_file(public_key, file_path):
     save_file(
         public_key.public_bytes(
@@ -19,6 +20,7 @@ def save_public_key_file(public_key, file_path):
         ),
         file_path
     )
+    
     
 def save_private_key_file(private_key, file_path):
     save_file(
@@ -30,12 +32,14 @@ def save_private_key_file(private_key, file_path):
         file_path
     )
 
+
 def load_public_key_file(file_path):
     public_key = serialization.load_pem_public_key(
         load_file(file_path)
     )
     
     return public_key
+    
     
 def load_private_key_file(file_path):
     private_key = serialization.load_pem_private_key(
@@ -44,6 +48,7 @@ def load_private_key_file(file_path):
     )
     
     return private_key
+    
     
 # test
 # if __name__ == '__main__':
