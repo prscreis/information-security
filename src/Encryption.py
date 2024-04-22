@@ -1,7 +1,7 @@
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
 
-from KeyManagement import generate_rsa_key_pair
+from File import load_file
 
         
 def encrypt(data, public_key, algorithm=hashes.SHA256):
@@ -36,16 +36,12 @@ def decrypt(data, private_key, algorithm=hashes.SHA256):
 
 
 def encrypt_file(file_path, public_key, algorithm=hashes.SHA256):
-    with open(file_path, 'rb') as f:
-        data = f.read()
-    
+    data = load_file(file_path)    
     return encrypt(data, public_key, algorithm)
 
 
 def decrypt_file(encrypted_file_path, private_key, algorithm=hashes.SHA256):
-    with open(encrypted_file_path, 'rb') as f:
-        data = f.read()
-        
+    data = load_file(encrypted_file_path)        
     return decrypt(data, private_key, algorithm)
 
 
