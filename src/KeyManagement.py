@@ -1,3 +1,4 @@
+import os
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 
@@ -9,6 +10,7 @@ def generate_rsa_key_pair():
         key_size=2048,
     )
     public_key = private_key.public_key()
+    
     return private_key, public_key
 
 
@@ -48,14 +50,6 @@ def load_private_key_file(file_path):
     )
     
     return private_key
-    
-    
-# test
-# if __name__ == '__main__':
-#     private_key, public_key = generate_rsa_key_pair()
 
-#     print("Private Key:")
-#     print(private_key.private_numbers())
-
-#     print("Public Key:")
-#     print(public_key.public_numbers())
+def generate_key_bundle():
+    return {"key": os.urandom(32), "iv": os.urandom(16)}
