@@ -3,7 +3,7 @@ import click
 from File import load_file, save_file
 from Hashing import verify_file_integrity, generate_file_hash
 from KeyManagement import generate_rsa_key_pair, load_private_key_file, load_public_key_file, save_private_key_file, save_public_key_file
-from Encryption import decrypt_file, encrypt_file, decrypt
+from Encryption import decrypt_file, encrypt_file
 
 
 @click.group()
@@ -48,13 +48,13 @@ def decrypt(file_path, decrypted_file_path, private_key_path):
     
 @cli.command()
 @click.argument('file_path', type=click.Path(exists=True))
-@click.option('--hash-file-path', '-hfp', default=None, help='Path to the hash file (optional). If not specified, the generated hash is printed on the console')
+@click.option('--hash-file-path', '-hfp', default=None, help='Path to the hash file (optional). If not specified, the generated hash is printed on the console (in hexadecimal)')
 def hash(file_path, hash_file_path):
-    original_hash = generate_file_hash(file_path)
-    
     if(hash_file_path == None):
-        click.echo(f"Generated hash:\n{original_hash}")
+        hex_original_hash = generate_file_hash(file_path, True)
+        click.echo(f"Generated hash:\n{hex_original_hash}")
     else:
+        original_hash = generate_file_hash(file_path)
         save_file(original_hash, hash_file_path)
     
     
@@ -65,9 +65,9 @@ def verify(file_path, hash_file_path):
     original_hash = load_file(hash_file_path)
     
     if verify_file_integrity(original_hash, file_path):
-        print("Integrity check passed!")
+        click.echo("Integrity check passed!")
     else:
-        print("Integrity check failed!")
+        click.echo("Integrity check failed!")
     
 
 if __name__ == "__main__":
