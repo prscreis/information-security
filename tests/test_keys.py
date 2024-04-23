@@ -4,12 +4,14 @@ from KeyManagement import generate_rsa_key_pair, load_private_key_file, load_pub
 
 def test_keys():
     private_key, public_key = generate_rsa_key_pair()
-    assert private_key.public_key() == public_key
+    
+    # comparison using _numbers() methods, as per described here: https://github.com/pyca/cryptography/issues/2122#issuecomment-120570866
+    assert private_key.public_key().public_numbers() == public_key.public_numbers()
     
     # another keys pair won't match with the previous generated pair
     another_private_key, another_public_key = generate_rsa_key_pair()
-    assert another_private_key.public_key() != public_key
-    assert private_key.public_key() != another_public_key
+    assert another_private_key.public_key().public_numbers() != public_key.public_numbers()
+    assert private_key.public_key().public_numbers() != another_public_key.public_numbers()
     
     
 def test_public_key():
@@ -19,7 +21,7 @@ def test_public_key():
     loaded_public_key = load_public_key_file('tests/files/pbk.pem')
     
     # generated and loaded from file keys should match
-    assert public_key == loaded_public_key
+    assert public_key.public_numbers() == loaded_public_key.public_numbers()
     
     os.remove('tests/files/pbk.pem')
     
@@ -31,7 +33,6 @@ def test_private_key():
     loaded_private_key = load_private_key_file('tests/files/pvk.pem')
     
     # generated and loaded from file keys should match
-    # comparison using private_numbers() as per described here: https://github.com/pyca/cryptography/issues/2122#issuecomment-120570866
     assert private_key.private_numbers() == loaded_private_key.private_numbers()
     
     os.remove('tests/files/pvk.pem')
