@@ -26,23 +26,26 @@ def keypair(public_key_path, private_key_path):
 
 @cli.command()
 @click.argument('file_path', type=click.Path(exists=True))
-@click.argument('encrypted_file_path', type=click.Path())
 @click.argument('public_key_path', type=click.Path(exists=True))
-def encrypt(file_path, encrypted_file_path, public_key_path):
+@click.argument('key_bundle_path', type=click.Path())
+@click.argument('encrypted_file_path', type=click.Path())
+def encrypt(file_path, public_key_path, encrypted_file_path, key_bundle_path):
     # Encrypt file using public key
     public_key = load_public_key_file(public_key_path)
-    encrypted_data = encrypt_file(file_path, public_key)
+    encrypted_data, key_bundle = encrypt_file(file_path, public_key)
     save_file(encrypted_data, encrypted_file_path)
+    save_file(key_bundle, key_bundle_path)
     
     
 @cli.command()
 @click.argument('file_path', type=click.Path(exists=True))
-@click.argument('decrypted_file_path', type=click.Path())
+@click.argument('key_bundle_path', type=click.Path(exists=True))
 @click.argument('private_key_path', type=click.Path(exists=True))
-def decrypt(file_path, decrypted_file_path, private_key_path):
+@click.argument('decrypted_file_path', type=click.Path())
+def decrypt(file_path, key_bundle_path, private_key_path, decrypted_file_path):
     # Decrypt file using private key
     private_key = load_private_key_file(private_key_path)
-    decrypted_data = decrypt_file(file_path, private_key)
+    decrypted_data = decrypt_file(file_path, private_key, key_bundle_path)
     save_file(decrypted_data, decrypted_file_path)
     
     

@@ -1,3 +1,4 @@
+import os
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 
@@ -49,3 +50,6 @@ def load_private_key_file(file_path):
     )
     
     return private_key
+
+def generate_key_bundle():
+    return {"key": os.urandom(32), "iv": os.urandom(16)}
